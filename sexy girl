@@ -1,0 +1,17 @@
+import { sendImage } from "./sendImage.js";
+
+// কিছু Safe, Stylish Model Photos (Unsplash / Pexels থেকে নাও)
+const sexyPhotos = [
+  "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e",
+  "https://images.unsplash.com/photo-1503341455253-b2e723bb3dbb",
+  "https://images.unsplash.com/photo-1544005313-94ddf0286df2",
+  "https://images.unsplash.com/photo-1517841905240-472988babdf9"
+];
+
+export async function sendSexyPhoto(senderId) {
+  // Random photo pick করবো
+  const randomPhoto = sexyPhotos[Math.floor(Math.random() * sexyPhotos.length)];
+
+  // Caption সহ পাঠানো
+  await sendImage(senderId, randomPhoto, "🔥 তোমার জন্য একটা স্টাইলিশ ছবি 😉");
+}
