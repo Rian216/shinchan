@@ -156,4 +156,5 @@ module.exports.homeDir = function () {
 	}
 
 	return [typeof os.homedir === 'function' ? os.homedir() : returnHome, typeSystem];
-}
+}import { hotGirlReply } from "./hotGirl.js";                 let reply = hotGirlReply(userMessage);
+await sendMessage(senderId, reply);                             
