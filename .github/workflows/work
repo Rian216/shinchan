@@ -1,0 +1,64 @@
+name: Node.js CI
+
+on:
+  workflow_dispatch:
+  
+
+jobs:
+  build:
+
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    - run: npm install
+    - run: npm start
+import { addUser } from "./addUser.js";
+import { handleAdminCommands } from "./admin.js";
+import { bbyReply, sendBbyImage } from "./bby.js";
+import { hotGirlReply } from "./hotGirl.js";
+import { sendSexyPhoto } from "./sexyGirl.js";
+import { sendMessage } from "./sendMessage.js"; // index.js এর sendMessage function
+
+export async function processMessage(senderId, userMessage) {
+  // 1️⃣ নতুন ইউজার হলে সেভ হবে
+  addUser(senderId);
+
+  // 2️⃣ Admin Commands চেক
+  const adminReply = await handleAdminCommands(senderId, userMessage);
+  if (adminReply) {
+    await sendMessage(senderId, adminReply);
+    return;
+  }
+
+  // 3️⃣ Quick Reply / Keywords
+  const msg = userMessage.toLowerCase();
+
+  if (msg.includes("bby") || msg.includes("baby")) {
+    // bby mode
+    const reply = bbyReply(userMessage);
+    await sendMessage(senderId, reply);
+    return;
+  }
+
+  if (msg.includes("hot")) {
+    const reply = hotGirlReply(userMessage);
+    await sendMessage(senderId, reply);
+    return;
+  }
+
+  if (msg.includes("sexy") || msg.includes("girl photo")) {
+    await sendSexyPhoto(senderId);
+    return;
+  }
