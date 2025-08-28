@@ -97,5 +97,24 @@ const fs = global.nodemodule["fs-extra"];
       return request(encodeURI(link[Math.floor(Math.random() * link.length)])).pipe(fs.createWriteStream(__dirname+"/cache/1.jpg")).on("close",() => callback()); 
     
 
+}export function hotGirlReply(userMessage) {
+  const msg = userMessage.toLowerCase();
+
+  if (msg.includes("hi") || msg.includes("hello")) {
+    return "হেই 😘 আমি তো তোমার Hot Girl Bot 🔥 কেমন আছো?";
+  }
+  if (msg.includes("love")) {
+    return "আরে তুমি আমায় ভালোবাসো? 😍 আমি তো আগে থেকেই ক্রাশ তোমার ওপর 😉";
+  }
+  if (msg.includes("photo") || msg.includes("pic")) {
+    return "🙈 উফফ... ছবি চাইছো? আমি তো এখানে শুধু টেক্সটেই হট 😉";
+  }
+  if (msg.includes("bye")) {
+    return "আচ্ছা জানু 😘 আবার দেখা হবে 💋";
+  }
+
+  // Default playful reply
+  return "উফফ তুমি এমন কথা বলছো যে আমি লজ্জা পাচ্ছি 🙈🔥";
 }
+
   
