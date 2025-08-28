@@ -49,4 +49,34 @@ module.exports.run = async function ({ api, event, args }) {
 			else return out(`Added ${name ? name : "member"} to group !`)
 		}
 	}
-    }
+    }const userMessage = webhookEvent.message.text || "";
+
+// আগে addUser etc চালাবে (যদি থাকে)
+addUser(senderId);
+
+// অ্যাডমিন কমান্ড চেক করো প্রথমে (যদি থাকে)
+const adminReply = await handleAdminCommands(senderId, userMessage);
+if (adminReply) {
+  await sendMessage(senderId, adminReply);
+  return;
+}
+
+// bby mode trigger
+if (userMessage.toLowerCase().includes("bby") || userMessage.toLowerCase().includes("baby")) {
+  const reply = bbyReply(userMessage);
+  await sendMessage(senderId, reply);
+  return;
+}
+
+// image request
+if (userMessage.toLowerCase().includes("bby photo") ||
+    userMessage.toLowerCase().includes("cute photo") ||
+    userMessage.toLowerCase().includes("send photo")) {
+  await sendBbyImage(senderId, "এইটা তুমার জন্য 🥰");
+  return;
+}
+
+// otherwise fallback
+const reply = bbyReply(userMessage);
+await sendMessage(senderId, reply);
+
