@@ -1,0 +1,4 @@
+PAGE_ACCESS_TOKEN=এখানে_তোমার_Page_Access_Token
+VERIFY_TOKEN=ektaStrongSecret
+GRAPH_API_VERSION=v20.0
+PORT=3000
