@@ -55,3 +55,40 @@ async function sendText(psid, text) {
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Bot running on ${PORT}`));
+const userMessage = webhookEvent.message.text || "";
+
+// ১) Quick reply payload আগে চেক করো
+if (webhookEvent.message?.quick_reply?.payload) {
+  const payload = webhookEvent.message.quick_reply.payload;
+
+  if (payload === "SAY_LOVE") {
+    await sendMessage(senderId, "আমি তোমাকে আগুনের মতো ভালোবাসি 🔥💖");
+  } else if (payload === "SEND_PHOTO") {
+    await sendBbyImage(senderId, "এইটা তুমার জন্য 🥰");
+  }
+  return;
+}
+
+// ২) তারপর সাধারণ bby mode
+if (userMessage.toLowerCase().includes("bby") || userMessage.toLowerCase().includes("baby")) {
+  // Quick Reply পাঠানো
+  await axios.post(`https://graph.facebook.com/v20.0/me/messages?access_token=${PAGE_ACCESS_TOKEN}`, {
+    recipient: { id: senderId },
+    message: {
+      text: "কি করতে চাও? 💖",
+      quick_replies: [
+        {
+          content_type: "text",
+          title: "Say I love you ❤️",
+          payload: "SAY_LOVE"
+        },
+        {
+          content_type: "text",
+          title: "Send Cute Photo 🥰",
+          payload: "SEND_PHOTO"
+        }
+      ]
+    }
+  });
+  return;
+}
